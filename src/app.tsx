@@ -10,11 +10,11 @@ interface Note {
 }
 
 export function App() {
-  const [search,setSearch] = useState('')
+  const [search, setSearch] = useState('')
   const [notes, setNotes] = useState<Note[]>(() => {
     const notesOnStorage = localStorage.getItem('notes')
 
-    if(notesOnStorage) {
+    if (notesOnStorage) {
       return JSON.parse(notesOnStorage)
     }
 
@@ -33,10 +33,10 @@ export function App() {
     setNotes(notesArray)
 
     localStorage.setItem('notes', JSON.stringify(notesArray))
-      
+
   }
 
-  function onNoteDeleted(id: string){
+  function onNoteDeleted(id: string) {
     const notesArray = notes.filter(note => {
       return note.id !== id
     })
@@ -71,10 +71,11 @@ export function App() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]" >
 
-        <NewNoteCard onNoteCreated={onNoteCreated}  />
+        <NewNoteCard onNoteCreated={onNoteCreated} />
 
-        {filteredNotes.map(note => { return <NoteCard  note={note} key={note.id} onNoteDeleted={onNoteDeleted} />
-      })}
+        {filteredNotes.map(note => {
+          return <NoteCard note={note} key={note.id} onNoteDeleted={onNoteDeleted} />
+        })}
 
 
 

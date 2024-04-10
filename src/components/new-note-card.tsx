@@ -7,9 +7,9 @@ interface NewNoteCardProps {
   onNoteCreated: (content: string) => void
 }
 
-let speechRecognition : SpeechRecognition | null = null
+let speechRecognition: SpeechRecognition | null = null
 
-export function NewNoteCard( {onNoteCreated} :NewNoteCardProps ) {
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
   const [content, setContent] = useState('')
   const [isRecording, setIsRecording] = useState(false)
@@ -21,15 +21,15 @@ export function NewNoteCard( {onNoteCreated} :NewNoteCardProps ) {
 
   function handleContentChanged(event: ChangeEvent<HTMLTextAreaElement>) {
     setContent(event.target.value)
-    
-    
-    if(event.target.value === "") {
+
+
+    if (event.target.value === "") {
       setShouldShowOnboarding(true)
     }
   }
 
   function handleSaveNote(event: FormEvent) {
-    if(content == "") {return}
+    if (content == "") { return }
 
     event.preventDefault()
 
@@ -37,14 +37,14 @@ export function NewNoteCard( {onNoteCreated} :NewNoteCardProps ) {
 
     setContent('')
     setShouldShowOnboarding(true)
-    
+
     toast.success('Nota criada com sucesso!')
   }
 
-  function handlStartRecording(){
+  function handlStartRecording() {
     const isRecognitionAPIAvailable = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window
 
-    if(!isRecognitionAPIAvailable) {
+    if (!isRecognitionAPIAvailable) {
       alert('Infelizmente seu navegador não suporta a API de gravação')
       return
     }
@@ -63,7 +63,8 @@ export function NewNoteCard( {onNoteCreated} :NewNoteCardProps ) {
 
     speechRecognition.onresult = (event) => {
       const transcription = Array.from(event.results).reduce((text, result) => {
-      return text.concat(result[0].transcript)}, '')
+        return text.concat(result[0].transcript)
+      }, '')
 
       setContent(transcription)
     }
@@ -79,10 +80,10 @@ export function NewNoteCard( {onNoteCreated} :NewNoteCardProps ) {
   function handleStopRecording() {
     setIsRecording(false)
 
-    if(speechRecognition !== null){
+    if (speechRecognition !== null) {
       speechRecognition.stop()
-  }
-  
+    }
+
   }
 
   return (
@@ -118,13 +119,13 @@ export function NewNoteCard( {onNoteCreated} :NewNoteCardProps ) {
 
             {isRecording ? (
               <button
-              type="button"
-              onClick={handleStopRecording}
-              className='flex items-center justify-center gap-2 w-full bg-slate-900 py-4 text-center text-sm text-slate-300 outline-none hover:text-slate-100'
-            >
-              <div className='size-3 rounded-full bg-red-500 animate-pulse'/>
-              Gravando (clique p/ interromper)
-            </button>
+                type="button"
+                onClick={handleStopRecording}
+                className='flex items-center justify-center gap-2 w-full bg-slate-900 py-4 text-center text-sm text-slate-300 outline-none hover:text-slate-100'
+              >
+                <div className='size-3 rounded-full bg-red-500 animate-pulse' />
+                Gravando (clique p/ interromper)
+              </button>
             ) : (<button
               type="button"
               onClick={handleSaveNote}
